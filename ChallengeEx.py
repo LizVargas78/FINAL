@@ -69,7 +69,8 @@ if st.button("Calcular"):
             if instrumento["nombre"] in seleccionados:
                 # Aquí se obtiene el rendimiento y riesgo usando la fecha YTD
                 rendimientos_log, rendimiento_acumulado, volatilidad_anualizada, precios = obtener_rendimiento_y_riesgo_logaritmico(instrumento, fecha_inicio_ytd, fecha_fin)
-                if rendimientos_log is not None:
+                
+                if rendimientos_log is not None and rendimiento_acumulado is not None:
                     precios_historicos[instrumento["nombre"]] = precios
                     rendimientos_acumulados.append(rendimiento_acumulado)
                     volatilidades_anualizadas.append(volatilidad_anualizada)
@@ -89,6 +90,7 @@ if st.button("Calcular"):
                         fecha_inicio = obtener_fecha_periodo(meses)
 
                     rendimientos_log, rendimiento_acumulado, volatilidad_anualizada, _ = obtener_rendimiento_y_riesgo_logaritmico(instrumento, fecha_inicio, fecha_fin)
+                    
                     if rendimientos_log is not None and volatilidad_anualizada is not None:
                         temp_df = pd.DataFrame({
                             "Instrumento": [instrumento['nombre']],
