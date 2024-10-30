@@ -92,10 +92,16 @@ if st.button("Calcular"):
                     rendimientos_log, rendimiento_acumulado, volatilidad_anualizada, _ = obtener_rendimiento_y_riesgo_logaritmico(instrumento, fecha_inicio, fecha_fin)
                     
                     if rendimientos_log is not None and volatilidad_anualizada is not None:
+                        # Verifica si rendimiento_acumulado es un número antes de formatear
+                        if isinstance(rendimiento_acumulado, (int, float)):
+                            rendimiento_str = f"{rendimiento_acumulado * 100:.2f}%"
+                        else:
+                            rendimiento_str = "N/A"  # O un valor predeterminado
+
                         temp_df = pd.DataFrame({
                             "Instrumento": [instrumento['nombre']],
                             "Periodo": [nombre_periodo],
-                            "Rendimiento": [f"{rendimiento_acumulado * 100:.2f}%"],
+                            "Rendimiento": [rendimiento_str],
                             "Volatilidad": [f"{volatilidad_anualizada * 100:.2f}%"]
                         })
                         resultados_globales = pd.concat([resultados_globales, temp_df], ignore_index=True)
