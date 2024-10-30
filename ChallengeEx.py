@@ -67,7 +67,8 @@ if st.button("Calcular"):
 
         for instrumento in instrumentos_financieros:
             if instrumento["nombre"] in seleccionados:
-                rendimientos_log, rendimiento_acumulado, volatilidad_anualizada, precios = obtener_rendimiento_y_riesgo_logarítmico(instrumento, fecha_inicio_ytd, fecha_fin)
+                # Aquí se obtiene el rendimiento y riesgo usando la fecha YTD
+                rendimientos_log, rendimiento_acumulado, volatilidad_anualizada, precios = obtener_rendimiento_y_riesgo_logaritmico(instrumento, fecha_inicio_ytd, fecha_fin)
                 if rendimientos_log is not None:
                     precios_historicos[instrumento["nombre"]] = precios
                     rendimientos_acumulados.append(rendimiento_acumulado)
@@ -89,8 +90,6 @@ if st.button("Calcular"):
 
                     rendimientos_log, rendimiento_acumulado, volatilidad_anualizada, _ = obtener_rendimiento_y_riesgo_logaritmico(instrumento, fecha_inicio, fecha_fin)
                     if rendimientos_log is not None and volatilidad_anualizada is not None:
-                        rendimiento_acumulado = rendimiento_acumulado or 0
-                        volatilidad_anualizada = volatilidad_anualizada or 0
                         temp_df = pd.DataFrame({
                             "Instrumento": [instrumento['nombre']],
                             "Periodo": [nombre_periodo],
@@ -127,3 +126,5 @@ if st.button("Calcular"):
             st.write(f"**Rendimiento Acumulado del Portafolio**: {rendimiento_acumulado_portafolio * 100:.2f}%")
         else:
             st.error("Error: No se obtuvieron suficientes datos para todos los instrumentos seleccionados.")
+    else:
+        st.error("Por favor, seleccione al menos un instrumento financiero.")
